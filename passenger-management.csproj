@@ -5,4 +5,8 @@
         <RootNamespace>passenger_management</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
+    </ItemGroup>
+
 </Project>
