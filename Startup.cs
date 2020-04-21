@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using passenger_management.Models;
+using passenger_management.Services;
 
 namespace passenger_management
 {
@@ -18,15 +16,26 @@ namespace passenger_management
             Configuration = configuration;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // requires using Microsoft.Extensions.Options
+            services.Configure<PassengersDatabaseSettings>(
+                Configuration.GetSection(nameof(PassengersDatabaseSettings)));
+
+            services.AddSingleton<IPassengersDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<PassengersDatabaseSettings>>().Value);
+
+            services.AddSingleton<PassengerService>();
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -50,8 +59,8 @@ namespace passenger_management
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

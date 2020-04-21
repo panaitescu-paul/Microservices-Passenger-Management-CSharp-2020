@@ -1,5 +1,3 @@
-using System;
-
 namespace passenger_management.Models
 {
     public class ErrorViewModel

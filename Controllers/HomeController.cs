@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using passenger_management.Models;
@@ -11,6 +7,7 @@ namespace passenger_management.Controllers
 {
     public class HomeController : Controller
     {
+        // ReSharper disable once NotAccessedField.Local
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
