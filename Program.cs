@@ -15,7 +15,6 @@ namespace passenger_management
         {
             CreateHostBuilder(args).Build().Run();
             // razvan commit
-            // hhh
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
