@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using passenger_management.Models;
 using passenger_management.Services;
 
@@ -20,6 +21,12 @@ namespace passenger_management.Controllers
         public ActionResult<List<Passenger>> Get()
         {
             return _passengerService.Get();
+        }
+
+        [HttpGet("all")]
+        public ActionResult<List<Passenger>> GetAll()
+        {
+            return _passengerService.Get(true);
         }
 
         [HttpGet("{id:length(24)}", Name = "GetPassenger")]
@@ -49,7 +56,7 @@ namespace passenger_management.Controllers
 
             _passengerService.Update(id, passengerIn);
 
-            return passenger;
+            return _passengerService.Get(id);
         }
 
         [HttpDelete("{id:length(24)}")]
@@ -61,7 +68,7 @@ namespace passenger_management.Controllers
 
             _passengerService.Remove(passenger.Id);
 
-            return passenger;
+            return _passengerService.Get(id, true);
         }
     }
 }

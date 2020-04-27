@@ -14,6 +14,8 @@ namespace passenger_management.Models
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Id { get; set; }
 
+        [BsonElement("Enabled")] public bool Enabled { get; set; }
+
         [BsonElement("Cpr")] public string Cpr { get; set; }
 
         [BsonElement("FirstName")] public string FirstName { get; set; }

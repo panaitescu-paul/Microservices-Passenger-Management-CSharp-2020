@@ -18,31 +18,33 @@ namespace passenger_management.Services
             _passengers = database.GetCollection<Passenger>(settings.PassengersCollectionName);
         }
 
-        public List<Passenger> Get() =>
+        public List<Passenger> Get(bool includeDisabled = false) =>
             //TODO: Add 'hide' field to hide object from reads, updates and deletes, to simulate deletion
-            _passengers.Find(passenger => true).ToList();
+            _passengers.Find(passenger => passenger.Enabled || includeDisabled).ToList();
 
-        public Passenger Get(string id) =>
+        public Passenger Get(string id, bool includeDisabled = false) =>
             //TODO: Add 'hide' field to hide object from reads, updates and deletes, to simulate deletion
-            _passengers.Find(passenger => passenger.Id == id).FirstOrDefault();
+            _passengers.Find(passenger => passenger.Id == id && (passenger.Enabled || includeDisabled)).FirstOrDefault();
 
         // ReSharper disable once UnusedMethodReturnValue.Global
         public Passenger Create(Passenger passenger)
         {
+            passenger.Enabled = true;
             _passengers.InsertOne(passenger);
             return passenger;
         }
 
-        public void Update(string id, Passenger passengerIn) =>
+        public void Update(string id, Passenger passengerIn, bool includeDisabled = false) =>
             //TODO: Add 'hide' field to hide object from reads, updates and deletes, to simulate deletion
-            _passengers.ReplaceOne(passenger => passenger.Id == id, passengerIn);
+            _passengers.ReplaceOne(passenger => passenger.Id == id && (passenger.Enabled || includeDisabled), passengerIn);
 
-        public void Remove(Passenger passengerIn) =>
-            //TODO: Add 'hide' field to hide object from reads, updates and deletes, to simulate deletion
-            _passengers.DeleteOne(passenger => passenger.Id == passengerIn.Id);
+        public void Remove(Passenger passengerIn)
+        {
+            passengerIn.Enabled = false;
+            _passengers.ReplaceOne(passenger => passenger.Id == passengerIn.Id, passengerIn);
+        }
 
-        public void Remove(string id) => 
-            //TODO: Add 'hide' field to hide object from reads, updates and deletes, to simulate deletion
-            _passengers.DeleteOne(passenger => passenger.Id == id);
+        public void Remove(string id) =>
+            Remove(Get(id));
     }
 }
