@@ -1,3 +1,4 @@
+using Confluent.Kafka;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,9 +26,16 @@ namespace passenger_management
             // requires using Microsoft.Extensions.Options
             services.Configure<PassengersDatabaseSettings>(
                 Configuration.GetSection(nameof(PassengersDatabaseSettings)));
+            services.AddSingleton<IPassengersDatabaseSettings>(provider =>
+                provider.GetRequiredService<IOptions<PassengersDatabaseSettings>>().Value);
 
-            services.AddSingleton<IPassengersDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<PassengersDatabaseSettings>>().Value);
+            services.Configure<KafkaTopics>(
+                Configuration.GetSection(nameof(KafkaTopics)));
+            services.AddSingleton<IKafkaTopics>(provider => provider.GetRequiredService<IOptions<KafkaTopics>>().Value);
+
+            services.Configure<ProducerConfig>(
+                Configuration.GetSection(nameof(ProducerConfig)));
+            services.AddSingleton(provider => provider.GetRequiredService<IOptions<ProducerConfig>>().Value);
 
             services.AddSingleton<PassengerService>();
 

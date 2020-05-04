@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using passenger_management.Models;
 using passenger_management.Services;
 
@@ -40,33 +40,33 @@ namespace passenger_management.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Passenger> Create(Passenger passenger)
+        public async Task<ActionResult<Passenger>> Create(Passenger passenger)
         {
-            _passengerService.Create(passenger);
+            await _passengerService.Create(passenger);
 
             return CreatedAtRoute("GetPassenger", new {id = passenger.Id}, passenger);
         }
 
         [HttpPut("{id:length(24)}")]
-        public ActionResult<Passenger> Update(string id, Passenger passengerIn)
+        public async Task<ActionResult<Passenger>> Update(string id, Passenger passengerIn)
         {
             var passenger = _passengerService.Get(id);
 
             if (passenger == null) return NotFound();
 
-            _passengerService.Update(id, passengerIn);
+            await _passengerService.Update(id, passengerIn);
 
             return _passengerService.Get(id);
         }
 
         [HttpDelete("{id:length(24)}")]
-        public ActionResult<Passenger> Delete(string id)
+        public async Task<ActionResult<Passenger>> Delete(string id)
         {
             var passenger = _passengerService.Get(id);
 
             if (passenger == null) return NotFound();
 
-            _passengerService.Remove(passenger.Id);
+            await _passengerService.Delete(passenger.Id);
 
             return _passengerService.Get(id, true);
         }
