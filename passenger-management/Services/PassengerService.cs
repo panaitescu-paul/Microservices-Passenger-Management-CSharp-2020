@@ -23,8 +23,11 @@ namespace passenger_management.Services
 
             _passengers = database.GetCollection<Passenger>(settings.PassengersCollectionName);
 
-            _producer = new ProducerWrapper(producerConfig);
-            _kafkaTopics = kafkaTopics;
+            if (producerConfig != null)
+            {
+                _producer = new ProducerWrapper(producerConfig);
+                _kafkaTopics = kafkaTopics;
+            }
         }
 
         public List<Passenger> Get(bool includeDisabled = false)
@@ -43,8 +46,11 @@ namespace passenger_management.Services
         {
             passenger.Enabled = true;
             _passengers.InsertOne(passenger);
+            if (_producer != null)
+            {
+                await _producer.WriteMessage(_kafkaTopics.Create, JsonConvert.SerializeObject(passenger));
+            }
 
-            await _producer.WriteMessage(_kafkaTopics.Create, JsonConvert.SerializeObject(passenger));
             return passenger;
         }
 
@@ -52,14 +58,21 @@ namespace passenger_management.Services
         {
             _passengers.ReplaceOne(passenger => passenger.Id == id && (passenger.Enabled || includeDisabled),
                 passengerIn);
-            await _producer.WriteMessage(_kafkaTopics.Update, JsonConvert.SerializeObject(passengerIn));
+            
+            if (_producer != null)
+            {
+                await _producer.WriteMessage(_kafkaTopics.Update, JsonConvert.SerializeObject(passengerIn));
+            }
         }
 
         public async Task Delete(Passenger passengerIn)
         {
             passengerIn.Enabled = false;
             _passengers.ReplaceOne(passenger => passenger.Id == passengerIn.Id, passengerIn);
-            await _producer.WriteMessage(_kafkaTopics.Delete, JsonConvert.SerializeObject(passengerIn));
+            if (_producer != null)
+            {
+                await _producer.WriteMessage(_kafkaTopics.Delete, JsonConvert.SerializeObject(passengerIn));
+            }
         }
 
         public async Task Delete(string id)
