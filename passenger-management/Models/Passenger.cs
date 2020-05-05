@@ -5,7 +5,6 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace passenger_management.Models
 {
-    //TODO: Add 'hide' field to hide object from reads, updates and deletes, to simulate deletion
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Passenger
     {
