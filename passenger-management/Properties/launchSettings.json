@@ -15,13 +15,18 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "passenger_management": {
+    "passenger_management-dev": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "passenger_management": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
