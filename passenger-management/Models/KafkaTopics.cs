@@ -1,5 +1,21 @@
+using Confluent.Kafka;
+
 namespace passenger_management.Models
 {
+    public class KafkaConfig : IKafkaConfig
+    {
+        public bool Enabled { get; set; }
+        public ProducerConfig ProducerConfig { get; set; }
+        public KafkaTopics KafkaTopics { get; set; }
+    }
+
+    public interface IKafkaConfig
+    {
+        bool Enabled { get; set; }
+        ProducerConfig ProducerConfig { get; set; }
+        KafkaTopics KafkaTopics { get; set; }
+    }
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class KafkaTopics : IKafkaTopics
     {
         public string Create { get; set; }

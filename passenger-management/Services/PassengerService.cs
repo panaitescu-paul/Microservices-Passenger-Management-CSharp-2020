@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Confluent.Kafka;
 using MongoDB.Driver;
 using passenger_management.Models;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
@@ -15,18 +14,17 @@ namespace passenger_management.Services
         private readonly ProducerWrapper _producer;
         private readonly IKafkaTopics _kafkaTopics;
 
-        public PassengerService(IPassengersDatabaseSettings settings, ProducerConfig producerConfig,
-            IKafkaTopics kafkaTopics)
+        public PassengerService(IPassengersDatabaseSettings settings, IKafkaConfig kafkaConfig)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _passengers = database.GetCollection<Passenger>(settings.PassengersCollectionName);
 
-            if (producerConfig != null)
+            if (kafkaConfig != null)
             {
-                _producer = new ProducerWrapper(producerConfig);
-                _kafkaTopics = kafkaTopics;
+                _producer = new ProducerWrapper(kafkaConfig);
+                _kafkaTopics = kafkaConfig.KafkaTopics;
             }
         }
 
@@ -46,10 +44,8 @@ namespace passenger_management.Services
         {
             passenger.Enabled = true;
             _passengers.InsertOne(passenger);
-            if (_producer != null)
-            {
-                await _producer.WriteMessage(_kafkaTopics.Create, JsonConvert.SerializeObject(passenger));
-            }
+            
+            await _producer.WriteMessage(_kafkaTopics.Create, JsonConvert.SerializeObject(passenger));
 
             return passenger;
         }
@@ -59,20 +55,15 @@ namespace passenger_management.Services
             _passengers.ReplaceOne(passenger => passenger.Id == id && (passenger.Enabled || includeDisabled),
                 passengerIn);
             
-            if (_producer != null)
-            {
-                await _producer.WriteMessage(_kafkaTopics.Update, JsonConvert.SerializeObject(passengerIn));
-            }
+            await _producer.WriteMessage(_kafkaTopics.Update, JsonConvert.SerializeObject(passengerIn));
         }
 
         public async Task Delete(Passenger passengerIn)
         {
             passengerIn.Enabled = false;
             _passengers.ReplaceOne(passenger => passenger.Id == passengerIn.Id, passengerIn);
-            if (_producer != null)
-            {
-                await _producer.WriteMessage(_kafkaTopics.Delete, JsonConvert.SerializeObject(passengerIn));
-            }
+            
+            await _producer.WriteMessage(_kafkaTopics.Delete, JsonConvert.SerializeObject(passengerIn));
         }
 
         public async Task Delete(string id)

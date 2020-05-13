@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Confluent.Kafka;
+using passenger_management.Models;
 
 namespace passenger_management
 {
@@ -8,13 +9,19 @@ namespace passenger_management
     {
         private readonly IProducer<Null, string> _producer;
 
-        public ProducerWrapper(ProducerConfig config)
+        public ProducerWrapper(IKafkaConfig config)
         {
-            _producer = new ProducerBuilder<Null, string>(config).Build();
+            _producer = !config.Enabled ? null : new ProducerBuilder<Null, string>(config.ProducerConfig).Build();
         }
 
         public async Task WriteMessage(string topicName, string message)
         {
+            if (_producer == null)
+            {
+                Console.WriteLine($"Kafka: Not Configured. Skipping publishing of '{message}' to '{topicName}'.");
+                return;
+            }
+            
             var deliveryResult = await _producer.ProduceAsync(topicName, new Message<Null, string>
             {
                 Value = message
