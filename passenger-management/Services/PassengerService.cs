@@ -52,6 +52,8 @@ namespace passenger_management.Services
 
         public async Task Update(string id, Passenger passengerIn, bool includeDisabled = false)
         {
+            passengerIn.Id = id;
+            passengerIn.Enabled = true;
             _passengers.ReplaceOne(passenger => passenger.Id == id && (passenger.Enabled || includeDisabled),
                 passengerIn);
             
