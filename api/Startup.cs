@@ -1,13 +1,13 @@
+using api.Models;
+using api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using passenger_management.Models;
-using passenger_management.Services;
 
-namespace passenger_management
+namespace api
 {
     public class Startup
     {

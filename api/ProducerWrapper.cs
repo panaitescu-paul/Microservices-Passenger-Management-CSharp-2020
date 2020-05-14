@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using api.Models;
 using Confluent.Kafka;
-using passenger_management.Models;
 
-namespace passenger_management
+namespace api
 {
     public class ProducerWrapper
     {

@@ -1,6 +1,6 @@
 using Confluent.Kafka;
 
-namespace passenger_management.Models
+namespace api.Models
 {
     public class KafkaConfig : IKafkaConfig
     {

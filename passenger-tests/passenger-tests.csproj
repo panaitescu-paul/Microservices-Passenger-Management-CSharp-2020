@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\passenger-management\passenger-management.csproj" />
+      <ProjectReference Include="..\api\api.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using api.Models;
 using MongoDB.Driver;
-using passenger_management.Models;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
-namespace passenger_management.Services
+namespace api.Services
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PassengerService

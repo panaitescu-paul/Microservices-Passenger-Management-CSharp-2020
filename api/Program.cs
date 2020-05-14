@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace passenger_management
+namespace api
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Program

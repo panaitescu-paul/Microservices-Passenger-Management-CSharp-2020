@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using api.Models;
+using api.Services;
 using Microsoft.AspNetCore.Mvc;
-using passenger_management.Models;
-using passenger_management.Services;
 
-namespace passenger_management.Controllers
+namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

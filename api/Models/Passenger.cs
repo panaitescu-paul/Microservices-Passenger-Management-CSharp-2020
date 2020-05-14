@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 // ReSharper disable UnusedMember.Global
 
-namespace passenger_management.Models
+namespace api.Models
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Passenger: ICloneable

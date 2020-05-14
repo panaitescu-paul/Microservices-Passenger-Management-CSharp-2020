@@ -1,6 +1,6 @@
 // ReSharper disable UnusedMember.Global
 
-namespace passenger_management.Models
+namespace api.Models
 {
     public class PassengersDatabaseSettings : IPassengersDatabaseSettings
     {
