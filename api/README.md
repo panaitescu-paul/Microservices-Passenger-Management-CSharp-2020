@@ -9,3 +9,4 @@ In this setup, the API will listen for Kafka at address ```kafka:9092``` (```kaf
 
 The configuration file can be found at ```api/appsettings.json```. <br>
 The new setup can be executed by ```docker-compose up --build``` using ```.../api``` as the current working directory.
+
