@@ -1,6 +1,9 @@
+The Docker image is available [here](https://hub.docker.com/repository/docker/mariusmm2/pas-man).
+
 # Setup
 ### Default:
-Run ```docker-compose up --build``` using ```docker-compose.yml``` found at ```api/docker-compose-standalone```.<br> In this setup, the API will listen for Kafka at address ```kafka:9092``` (```kafka``` being the name of the kafka container), but the API will need to be manually linked to Kafka's container using the ```--link``` flag.
+Run ```docker-compose up --build``` using the ```docker-compose.yml``` found [here](/api/docker-compose-standalone/docker-compose.yml).<br> 
+In this setup, the API will listen for Kafka at address ```kafka:9092``` (```kafka``` being the name of the kafka container), but the API will need to be manually linked to Kafka's container using the ```--link``` flag.
 
 ### Custom:
 
