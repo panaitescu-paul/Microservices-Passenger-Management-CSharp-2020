@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +20,6 @@ namespace passenger_management.Controllers
         [HttpGet]
         public ActionResult<List<Passenger>> Get()
         {
-            Console.WriteLine("Hello!!!");
             return _passengerService.Get();
         }
 
