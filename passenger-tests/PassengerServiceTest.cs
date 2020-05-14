@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using NUnit.Framework;
 using passenger_management.Models;
@@ -35,7 +34,7 @@ namespace PassengerTests
         [SetUp]
         public void Setup()
         {
-            _passengerService = new PassengerService(_databaseSettings, null, null);
+            _passengerService = new PassengerService(_databaseSettings, null);
         }
 
         [TearDown]
