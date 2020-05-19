@@ -1,4 +1,4 @@
-***The Docker image is available [here](https://hub.docker.com/repository/docker/mariusmm2/pas-man).***
+***Note: The Docker Image is available [here](https://hub.docker.com/repository/docker/mariusmm2/pas-man).***
 
 # Setup
 
